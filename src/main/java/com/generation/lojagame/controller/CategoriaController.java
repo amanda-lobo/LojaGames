@@ -21,26 +21,36 @@ import com.generation.lojagame.model.Categoria;
 import com.generation.lojagame.repository.CategoriaRepository;
 
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/categorias")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoriaController {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@GetMapping
+	public ResponseEntity<List<Categoria>> getAll()
+	{
+		return ResponseEntity.ok(categoriaRepository.findAll());
+	}
 
 	@GetMapping("/{idCategoria}")
-	public ResponseEntity<Categoria> getById(@PathVariable Long idCategoria) {
-		return categoriaRepository.findById(idCategoria).map(resposta -> ResponseEntity.ok(resposta))
+	public ResponseEntity<Categoria> getById(@PathVariable Long idCategoria) 
+	{
+		return categoriaRepository.findById(idCategoria)
+				.map(resposta -> ResponseEntity.ok(resposta))
 				.orElse(ResponseEntity.notFound().build());
 	}
 
-	@GetMapping("/{nomeCategoria}")
-	public ResponseEntity<List<Categoria>> getBynomeCategoria(@PathVariable String nomeCategoria) {
+	@GetMapping("/nomeCategoria/{nomeCategoria}")
+	public ResponseEntity<List<Categoria>> getBynomeCategoria(@PathVariable String nomeCategoria) 
+	{
 		return ResponseEntity.ok(categoriaRepository.findAllBynomeCategoriaContainingIgnoreCase(nomeCategoria));
 	}
 
 	@PostMapping
-	public ResponseEntity<Categoria> postCategoria(@Valid @RequestBody Categoria categoria) {
+	public ResponseEntity<Categoria> postCategoria (@Valid @RequestBody Categoria categoria)
+	{
 		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaRepository.save(categoria));
 	}
 

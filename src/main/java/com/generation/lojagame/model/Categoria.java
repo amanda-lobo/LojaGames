@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,17 +23,25 @@ public class Categoria {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long idCategoria;
 	
-	@NotBlank (message = "Este item é obrigatório e não pode conter espaços em branco!")
+	@NotNull (message = "Este item é obrigatório!")
 	private String nomeCategoria;
 	
-	@NotBlank (message = "Este item é obrigatório e não pode conter espaços em branco!")
+	@NotNull (message = "Este item é obrigatório!")
 	@Size (max = 500)
 	private String descricaoCategoria;
 	
-	@NotBlank (message = "Este item é obrigatório e não pode conter espaços em branco!")
+	@NotNull (message = "Este item é obrigatório")
 	private String tipo;
 
-	@OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
+	public String getNomeCategoria() {
+		return nomeCategoria;
+	}
+
+	public void setNomeCategoria(String nomeCategoria) {
+		this.nomeCategoria = nomeCategoria;
+	}
+
+	@OneToMany(mappedBy = "categoria", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("categoria")
 	private List<Produto> produto;
 	

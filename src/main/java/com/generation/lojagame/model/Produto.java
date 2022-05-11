@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
@@ -22,10 +22,10 @@ public class Produto {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long idProduto;
 	
-	@NotBlank
+	@NotNull
 	private String nomeProduto;
 	
-	@NotBlank (message = "Este item é obrigatório e não pode conter espaços em branco!")
+	@NotNull (message = "Este item é obrigatório!")
 	@Positive (message = "Preço deve ser positivo e maior do que zero!")
 	private BigDecimal preco;
 	
